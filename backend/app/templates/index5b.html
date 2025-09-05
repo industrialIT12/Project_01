@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Signage</title>
+    <style>
+        body {
+            /* Apply radial gradient background */
+            background: radial-gradient(circle at center, #2F5597 0%, #F4B183 100%);
+            /* Optionally, you can set other styles for the body */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            /* You can adjust additional styles as needed */
+        }
+
+        h1 {
+            /* Optional: Center the heading */
+            text-align: center;
+            color: white;
+            font-size: 35px;
+            margin-top: 20px;
+        }
+
+        .container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 50px;
+        }
+
+        form {
+            /* Optional: Center the form */
+            width: 40%;
+            margin-right: 20px;
+        }
+
+        #subAreaInputs {
+            width: 40%;
+        }
+
+        /* Additional styling for input fields */
+        input[type="file"],
+        select {
+            display: block;
+            color: rgb(74, 77, 78);
+            width: calc(100% - 20px); /* Adjust as needed */
+            margin-top: 5px;
+            margin-bottom: 10px; /* Add spacing between input fields */
+            padding: 10px; /* Add padding for better visual appearance */
+            border: none; /* Remove default border */
+            background-color: rgba(255, 230, 153, 0.2); /* Add background color */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+        }
+
+        input[type="file"]::file-selector-button {
+            background-color: rgba(68, 84, 106, 1); /* Green color for file selection button */
+            color: white; /* White text color */
+            padding: 8px 20px; /* Padding for the button */
+            border: none; /* Remove default border */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+            cursor: pointer; /* Add cursor pointer */
+            font-size: 16px; /* Font size */
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #27235e; /* Darker green color on hover */
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: calc(100% - 20px); /* Adjust as needed */
+            padding: 10px; /* Add padding for better visual appearance */
+            margin-top: 20px; /* Add spacing between input fields */
+            border: none; /* Remove default border */
+            background-color: #af9c2f; /* Green background color */
+            color: white; /* White text color */
+            text-align: center; /* Center text */
+            text-decoration: none; /* Remove default underline */
+            font-size: 18px; /* Font size */
+            cursor: pointer; /* Add cursor pointer */
+            border-radius: 5px; /* Add border-radius for rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add box shadow for depth */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #a08d25; /* Darker green color on hover */
+        ;
+        }
+
+        /* Logo styling */
+        .logo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px; /* Adjust logo width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+        label[for="department"],
+        label[for="area"] {
+            color: white; /* Change text color to white */
+            margin-top: -10px;
+        }
+        label {
+            color: white; /* Change text color to white */
+        }
+        select#department,
+        select#area {
+            margin-top: 5px; /* Lower the selects by 5 pixels */
+        }
+
+    </style>
+</head>
+<body>
+    <img src="C:/Users/ankit/Desktop/logo.png" class="logo">
+    <h1>PPAP Automotive Limited</h1>
+    
+    <div class="container">
+        <form id="updateForm" action="#" enctype="multipart/form-data">
+            <!-- Select Area -->
+            <label for="department">Select Area:</label>
+            <select id="department" name="department">
+                <option value="Extrusion">Extrusion</option>
+                <option value="Assembly">Assembly</option>
+            </select>
+            <br><br>
+            
+            <!-- Select Sub-Area -->
+            <label for="area">Select Sub-Area:</label>
+            <select id="area" name="area">
+                <option value="" disabled selected>Select Area</option>
+            </select>
+            <br><br>
+            
+            <!-- Input fields for sub areas -->
+            <input type="submit" value="Submit" onclick="uploadFiles(event)">
+        </form>
+
+        <div id="subAreaInputs"></div>
+    </div>
+
+    <script>
+        // Define departments and their corresponding areas and sub areas
+        var departments = {
+            'Extrusion': {
+                'Line 1': ['Uncoiling', 'Looping', 'Taping', 'Roll Forming', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut'],
+                'Line 2': ['Uncoiling', 'Looping', 'Taping', 'Roll Forming', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Plasma', 'Mini Puller', 'Rough Cut'],
+                'Line 3': ['Uncoiling', 'Looping', 'Taping', 'Roll Forming', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut'],
+                'Line 4': ['Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Plasma', 'Mini Puller', 'Rough Cut'],
+                'Line 5': ['Uncoiling', 'Looping', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut'],
+                'Line 6': ['Uncoiling', 'Looping', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut'],
+                'Line 8': ['Uncoiling', 'Looping', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut']
+            },
+            "Assembly": {
+                'Cell 21': ['Notching A', 'Notching B', 'Endcap A','Endcap B', 'CTS_SB', 'Inspection_Packing A','Inspection_Packing B', 'USW']
+            }
+        };
+
+        //// Populate areas based on selected department
+    document.getElementById('department').addEventListener('change', function() {
+    var department = this.value;
+    var areaSelect = document.getElementById('area');
+    areaSelect.innerHTML = "<option value='' disabled selected>Select Area</option>"; // Reset area options
+    
+    // Populate area options based on selected department
+    for (var area in departments[department]) {
+        var option = document.createElement('option');
+        option.text = area;
+        option.value = area;
+        areaSelect.add(option);
+    }
+});
+
+// Display input fields for selected area
+document.getElementById('area').addEventListener('change', function() {
+    var department = document.getElementById('department').value;
+    var area = this.value;
+    var subAreas = departments[department][area];
+    var subAreaInputsContainer = document.getElementById('subAreaInputs');
+    subAreaInputsContainer.innerHTML = ''; // Clear previous inputs
+    
+    // Generate input fields for sub areas
+    subAreas.forEach(function(subArea) {
+        var label = document.createElement('label');
+        label.textContent =subArea + ' File:';
+        subAreaInputsContainer.appendChild(label);
+        subAreaInputsContainer.appendChild(document.createElement('br'));
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.name = subArea.toLowerCase().replace(/ /g, '') + '_' + area.replace(/ /g, '').toLowerCase();
+        subAreaInputsContainer.appendChild(label);
+        subAreaInputsContainer.appendChild(input);
+        subAreaInputsContainer.appendChild(document.createElement('br'));
+    });
+});
+
+ // Function to get file extension
+ function getFileExtension(filename) {
+        return filename.split('.').pop().toLowerCase();
+    }
+
+    // Function to determine media type based on file extension
+    function getMediaType(filename) {
+        var extension = getFileExtension(filename);
+        if (extension === 'jpg' || extension === 'jpeg' || extension === 'png') {
+            return 'photo';
+        } else if (extension === 'mp4' || extension === 'avi' || extension === 'mov') {
+            return 'video';
+        } else {
+            return 'unknown';
+        }
+    }
+
+// Function to upload files
+function uploadFiles(event) {
+    event.preventDefault(); // Prevent default form submission
+    
+    var formData = new FormData();
+    var department = document.getElementById('department').value;
+    var area = document.getElementById('area').value;
+    
+    // Append files and endpoints to form data
+    var subAreas = departments[department][area];
+    subAreas.forEach(function(subArea) {
+        var inputName = subArea.toLowerCase().replace(/ /g, '') + '_' + area.replace(/ /g, '').toLowerCase();
+        var file = document.querySelector('input[name="' + inputName + '"]').files[0];
+        if (file) {
+            formData.append('file[]', file);
+            formData.append('endpoint[]', inputName); // Specify the endpoint for this file
+            formData.append('media_type[]', getMediaType(file.name));  // Specify the media type
+        }
+    });
+
+    // Send AJAX request to server
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/update', true);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            alert('Files uploaded successfully!');
+        } else {
+            alert('Failed to upload files!');
+        }
+    };
+    xhr.onerror = function () {
+        alert('Failed to send request!');
+    };
+    xhr.send(formData);
+}
+</script>
+</body>
+</html>
+

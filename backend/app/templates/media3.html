@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media2</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrolling */
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Remove default styles for the video and img elements */
+        video, img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensure the media fills the container without stretching */
+            margin: 0;
+            padding: 0;
+            border-color: black;
+        }
+    </style>
+    <script>
+        function toggleFullScreen() {
+            var elem = document.getElementById("videoPlayer");
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                elem.webkitRequestFullscreen();
+            }
+        }
+
+        // Play video automatically when it's loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            var video = document.getElementById('videoPlayer');
+            video.play();
+            toggleFullScreen();
+        });
+    </script>
+</head>
+<body>
+
+    {% if media_type == 'photo' %}
+        <img src="{{ url_for('static', filename=filename) }}" alt="Photo">
+    {% elif media_type == 'video' %}
+        <video id="videoPlayer" controls autoplay muted controlsList="nodownload" onended="this.play(); toggleFullScreen();">
+            <source src="{{ url_for('static', filename=filename) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    {% endif %}
+</body>
+</html>
