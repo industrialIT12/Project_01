@@ -26,6 +26,7 @@ def create_app():
     CORS(app)
     mail.init_app(app)
 
+<<<<<<< HEAD
     # Serve the React build's index.html
     @app.route("/")
     def serve_react():
@@ -39,5 +40,10 @@ def create_app():
     # Import and register routes
     from .routes import maintenance_routes
     app.register_blueprint(maintenance_routes)
+=======
+    # Import and register routes
+    from .routes import sop_routes
+    app.register_blueprint(sop_routes)
+>>>>>>> 8ee8bed0380761af891f3d488303329303c22107
     
     return app

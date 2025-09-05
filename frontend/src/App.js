@@ -2,6 +2,7 @@ import React from 'react';
 import { ColorModeContext, useMode } from "./theme";
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from '@mui/material/CssBaseline';
+<<<<<<< HEAD
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Details from './components/main_component';
 import Sidebar from './scenes/global/Sidebar';
@@ -25,11 +26,16 @@ import MeetingTable from './components/meetingdatatable';
 import UserTable from './components/digital_twin';
 import Mastertable from './components/masterTable';
 
+=======
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
+import HelloPage from './components/hello';
+>>>>>>> 8ee8bed0380761af891f3d488303329303c22107
 
 
 function App() {
   const [theme, colorMode] = useMode();
   const location = useLocation();
+<<<<<<< HEAD
   const { isAuthenticated, loading } = useAuth();
  
   // Check if the current route is the login page
@@ -39,12 +45,21 @@ function App() {
    
     return <div>Loading...</div>;
   }
+=======
+
+  const hideSidebarPaths = ["/pmques", "/qrscan"];
+  const hideTopbarPaths = ["/qrscan"];
+
+  const showSidebar = !hideSidebarPaths.includes(location.pathname);
+  const showTopbar = !hideTopbarPaths.includes(location.pathname);
+>>>>>>> 8ee8bed0380761af891f3d488303329303c22107
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
+<<<<<<< HEAD
           {!isLoginPage && <Sidebar />}
           <main className="content">
             {!isLoginPage && <Topbar />}
@@ -65,10 +80,19 @@ function App() {
               <Route path="/master" element={isAuthenticated ? <Mastertable /> : <Navigate to="/login" />} />
             </Routes>
           </main>
+=======
+            <Routes>
+              <Route path="/" element={<HelloPage />} />
+            </Routes>
+>>>>>>> 8ee8bed0380761af891f3d488303329303c22107
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 8ee8bed0380761af891f3d488303329303c22107

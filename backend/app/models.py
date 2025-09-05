@@ -14,6 +14,7 @@ def get_db_connection():
         cursorclass=pymysql.cursors.DictCursor
     )
 
+<<<<<<< HEAD
 class Details:
 
     def get_all_plans(selected_business):
@@ -50,6 +51,17 @@ class Details:
             ic(id)
             query = "SELECT * FROM details where id=%s"
             cursor.execute(query,(id,))
+=======
+class SOP:
+
+    def show_sop():
+        try:
+            connection = get_db_connection()
+            cursor = connection.cursor()
+            
+            query = "SELECT * FROM details"
+            cursor.execute(query)
+>>>>>>> 8ee8bed0380761af891f3d488303329303c22107
 
             rows = cursor.fetchall()
             connection.close()
@@ -57,6 +69,7 @@ class Details:
         except Exception as e:
             print("Error fetching data:", e)
             return {'error': str(e)}
+<<<<<<< HEAD
         
     def team_details(project_id=None):
         try:
@@ -1398,3 +1411,5 @@ class Details:
  
 
 
+=======
+>>>>>>> 8ee8bed0380761af891f3d488303329303c22107

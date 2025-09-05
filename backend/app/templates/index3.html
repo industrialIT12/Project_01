@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Files</title>
+</head>
+<body>
+    <h1>Update Files</h1>
+    
+    <form id="updateForm" action="#" enctype="multipart/form-data">
+        <label for="ctsFile">Select CTS File:</label>
+        <input type="file" id="cts" name="file[]" accept="image/*">
+        <br><br>
+        
+        <label for="endcapFile">Select Endcap File:</label>
+        <input type="file" id="endcap" name="file[]" accept="image/*">
+        <br><br>
+        
+        <label for="packingFile">Select Packing File:</label>
+        <input type="file" id="packing" name="file[]" accept="image/*">
+        <br><br>
+
+        <input type="submit" value="Submit" onclick="uploadFiles(event)">
+    </form>
+
+    <script>
+        function uploadFiles(event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            var formData = new FormData();
+            var ctsFile = document.getElementById('cts').files[0];
+            var endcapFile = document.getElementById('endcap').files[0];
+            var packingFile = document.getElementById('packing').files[0];
+    
+            if (ctsFile) {
+                formData.append('file[]', ctsFile);
+                formData.append('endpoint[]', 'cts'); // Specify the endpoint for this file
+                formData.append('media_type[]', 'photo'); // Specify the media type
+            }
+            if (endcapFile) {
+                formData.append('file[]', endcapFile);
+                formData.append('endpoint[]', 'endcap'); // Specify the endpoint for this file
+                formData.append('media_type[]', 'photo'); // Specify the media type
+            }
+            if (packingFile) {
+                formData.append('file[]', packingFile);
+                formData.append('endpoint[]', 'packing'); // Specify the endpoint for this file
+                formData.append('media_type[]', 'photo'); // Specify the media type
+            }
+    
+            // Send AJAX request to Flask server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/update', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert('Files uploaded successfully!');
+                } else {
+                    alert('Failed to upload files!');
+                }
+            };
+            xhr.onerror = function () {
+                alert('Failed to send request!');
+            };
+            xhr.send(formData);
+        }
+    </script>
+    
+</body>
+</html>

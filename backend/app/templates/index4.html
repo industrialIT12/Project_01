@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Files</title>
+</head>
+<body>
+    <h1>Update Files</h1>
+    
+    
+    <form id="updateForm" action="#" enctype="multipart/form-data">
+        <!-- Select Department -->
+        <label for="department">Select Department:</label>
+        <select id="department" name="department">
+            <option value="Extrusion">Extrusion</option>
+            <option value="Assembly">Assembly</option>
+        </select>
+        <br><br>
+        
+        <!-- Select Area -->
+        <label for="area">Select Area:</label>
+        <select id="area" name="area">
+            <option value="" disabled selected>Select Area</option>
+        </select>
+        <br><br>
+        
+        <!-- Input fields for sub areas -->
+        <div id="subAreaInputs"></div>
+        
+        <br><br>
+        <input type="submit" value="Submit" onclick="uploadFiles(event)">
+    </form>
+
+    <script>
+        // Define departments and their corresponding areas and sub areas
+        var departments = {
+            'Extrusion': {
+                'Line 1': ['Uncoiling', 'Looping', 'Taping', 'Roll Forming', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut'],
+                'Line 2': ['Uncoiling', 'Looping', 'Taping', 'Roll Forming', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Plasma', 'Mini Puller', 'Rough Cut'],
+                'Line 3': ['Uncoiling', 'Looping', 'Taping', 'Roll Forming', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut'],
+                'Line 4': ['Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Plasma', 'Mini Puller', 'Rough Cut'],
+                'Line 5': ['Uncoiling', 'Looping', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut'],
+                'Line 6': ['Uncoiling', 'Looping', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut'],
+                'Line 8': ['Uncoiling', 'Looping', 'Induction', 'Co-Extrusion', 'Cooling Trough', 'Main Puller', 'Laser Print', 'Mini Puller', 'Rough Cut']
+                        },
+            "Assembly": {
+                'Cell 21': ['Notching A', 'Notching B', 'Endcap A','Endcap B', 'CTS_SB', 'Inspection_Packing A','Inspection_Packing B', 'USW']
+            }
+        };
+
+        // Populate areas based on selected department
+        document.getElementById('department').addEventListener('change', function() {
+            var department = this.value;
+            var areaSelect = document.getElementById('area');
+            areaSelect.innerHTML = "<option value='' disabled selected>Select Area</option>"; // Reset area options
+            
+            // Populate area options based on selected department
+            for (var area in departments[department]) {
+                var option = document.createElement('option');
+                option.text = area;
+                option.value = area;
+                areaSelect.add(option);
+            }
+        });
+
+        // Display input fields for selected area
+        document.getElementById('area').addEventListener('change', function() {
+            var department = document.getElementById('department').value;
+            var area = this.value;
+            var subAreas = departments[department][area];
+            var subAreaInputsContainer = document.getElementById('subAreaInputs');
+            subAreaInputsContainer.innerHTML = ''; // Clear previous inputs
+            
+            // Generate input fields for sub areas
+            subAreas.forEach(function(subArea) {
+                var label = document.createElement('label');
+                label.textContent = 'Select ' + subArea + ' File:';
+                var input = document.createElement('input');
+                input.type = 'file';
+                input.name =subArea.toLowerCase().replace(/ /g, '') + '_' + area.replace(/ /g, '').toLowerCase();
+                subAreaInputsContainer.appendChild(label);
+                subAreaInputsContainer.appendChild(input);
+                subAreaInputsContainer.appendChild(document.createElement('br'));
+            });
+        });
+
+       // Function to upload files
+function uploadFiles(event) {
+    event.preventDefault(); // Prevent default form submission
+    
+    var formData = new FormData();
+    var department = document.getElementById('department').value;
+    var area = document.getElementById('area').value;
+    
+    // Append files and endpoints to form data
+    var subAreas = departments[department][area];
+    subAreas.forEach(function(subArea) {
+        var inputName = subArea.toLowerCase().replace(/ /g, '') + '_' + area.replace(/ /g, '').toLowerCase();
+        var file = document.querySelector('input[name="' + inputName + '"]').files[0];
+        if (file) {
+            formData.append('file[]', file);
+            formData.append('endpoint[]', inputName); // Specify the endpoint for this file
+            formData.append('media_type[]', 'photo'); // Specify the media type
+        }
+    });
+
+
+            // Send AJAX request to server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/update', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert('Files uploaded successfully!');
+                } else {
+                    alert('Failed to upload files!');
+                }
+            };
+            xhr.onerror = function () {
+                alert('Failed to send request!');
+            };
+            xhr.send(formData);
+        }
+    </script>
+</body>
+</html>
