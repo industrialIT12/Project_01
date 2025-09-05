@@ -2,14 +2,13 @@ import React from 'react';
 import { ColorModeContext, useMode } from "./theme";
 import { ThemeProvider } from "@mui/material";
 import CssBaseline from '@mui/material/CssBaseline';
-<<<<<<< HEAD
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+
 import Details from './components/main_component';
 import Sidebar from './scenes/global/Sidebar';
 import Topbar from './scenes/global/Topbar'; 
 import TableComponent from './components/project_list';
 import Dashboard from './components/project_dash';
-import MOM from './components/mom';
 import Dev_details from './components/dev_details';
 import ProjectTimeline from './components/Multi_series';
 import TimelineChart from './components/Multi_series';
@@ -17,7 +16,6 @@ import GanttChart from './components/Multi_series';
 import Eventdata from './components/Event_data';
 import LoginPage from './components/Login';
 import { useAuth } from './context/AuthProvider';
-import MOMComponent from './components/mom';
 import AllMOM from './components/allmompoints';
 import User from './components/userdata_table';
 import Allevent from './components/alleventpoints';
@@ -25,41 +23,25 @@ import BookingData from './components/meeting_booking';
 import MeetingTable from './components/meetingdatatable';
 import UserTable from './components/digital_twin';
 import Mastertable from './components/masterTable';
-
-=======
-import { Route, Routes, useLocation, Navigate } from "react-router-dom";
-import HelloPage from './components/hello';
->>>>>>> 8ee8bed0380761af891f3d488303329303c22107
-
+import HelloPage from './components/hello'; // from GitHub version
 
 function App() {
   const [theme, colorMode] = useMode();
   const location = useLocation();
-<<<<<<< HEAD
   const { isAuthenticated, loading } = useAuth();
- 
+
   // Check if the current route is the login page
   const isLoginPage = location.pathname === '/login';
- 
+
   if (loading) {
-   
     return <div>Loading...</div>;
   }
-=======
-
-  const hideSidebarPaths = ["/pmques", "/qrscan"];
-  const hideTopbarPaths = ["/qrscan"];
-
-  const showSidebar = !hideSidebarPaths.includes(location.pathname);
-  const showTopbar = !hideTopbarPaths.includes(location.pathname);
->>>>>>> 8ee8bed0380761af891f3d488303329303c22107
 
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-<<<<<<< HEAD
           {!isLoginPage && <Sidebar />}
           <main className="content">
             {!isLoginPage && <Topbar />}
@@ -78,21 +60,15 @@ function App() {
               <Route path="/Meeting_table" element={isAuthenticated ? <MeetingTable /> : <Navigate to="/login" />} />
               <Route path="/Digitaltwin1" element={isAuthenticated ? <UserTable /> : <Navigate to="/login" />} />
               <Route path="/master" element={isAuthenticated ? <Mastertable /> : <Navigate to="/login" />} />
+
+              {/* From GitHub version */}
+              <Route path="/hello" element={<HelloPage />} />
             </Routes>
           </main>
-=======
-            <Routes>
-              <Route path="/" element={<HelloPage />} />
-            </Routes>
->>>>>>> 8ee8bed0380761af891f3d488303329303c22107
         </div>
       </ThemeProvider>
     </ColorModeContext.Provider>
   );
 }
 
-<<<<<<< HEAD
 export default App;
-=======
-export default App;
->>>>>>> 8ee8bed0380761af891f3d488303329303c22107
