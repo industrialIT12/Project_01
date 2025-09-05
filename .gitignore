@@ -1,0 +1,21 @@
+# --- Frontend ---
+frontend/node_modules/
+frontend/build/
+
+# --- Backend ---
+backend/venv/
+
+# Python cache
+backend/__pycache__/
+*.pyc
+
+# IDE / Editor files
+.vscode/
+.idea/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
