@@ -18,21 +18,13 @@ const Topbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-<<<<<<< HEAD
     localStorage.removeItem("isAuthenticated"); 
     localStorage.removeItem("accessLevel"); 
-=======
-    // Clear any authentication tokens or user data
-    localStorage.removeItem("authToken"); // Example: Remove auth token from local storage
-    // Add any other necessary cleanup here
 
-    // Redirect to the login page
->>>>>>> 8ee8bed0380761af891f3d488303329303c22107
     navigate("/login");
   };
 
   return (
-<<<<<<< HEAD
     <Box
       display="flex"
       justifyContent="space-between"
@@ -46,18 +38,12 @@ const Topbar = () => {
         padding: "0px 20px", // Add padding for spacing
       }}
     >
-=======
-    <Box display="flex" justifyContent="space-between">
->>>>>>> 8ee8bed0380761af891f3d488303329303c22107
       <Box display="flex"  borderRadius="3px">
       </Box>
 
       {/* Icons */}
-<<<<<<< HEAD
       <Box display="flex">
-=======
-      <Box display="flex" mr="15px">
->>>>>>> 8ee8bed0380761af891f3d488303329303c22107
+
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
             <DarkModeOutlinedIcon />
